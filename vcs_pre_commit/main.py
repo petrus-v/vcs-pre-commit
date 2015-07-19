@@ -4,7 +4,7 @@ import os
 from argparse import ArgumentParser
 
 from .vcs import VCS
-from .hook import Flake8, JsHint
+from .hook import Flake8, EsLint
 
 logger = logging.getLogger(__name__)
 
@@ -22,11 +22,15 @@ def main():
     repo = VCS.get_instance(arguments.vcs)
     files = repo.commiting_files()
     logger.debug("Audited files %r", files)
-    hooks = [Flake8(), JsHint(), EsLint()]
+    hooks = [Flake8(), EsLint()]
     first_error_number = None
     error_file = []
     for fpath in files:
+        if not fpath:
+            continue
         if not os.path.isfile(fpath):
+            first_error_number = 1
+            logger.error("Weird, file: %s not found, can't be tested", fpath)
             continue
         logger.debug("-   ===== Start checking %r =====   -", fpath)
         for hook in hooks:
