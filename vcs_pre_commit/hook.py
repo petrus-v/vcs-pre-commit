@@ -12,21 +12,24 @@ class Hook(object):
 
     @abstractmethod
     def extensions(self):
-        """list of extension expected by the
-        :return: (list) List of extension manage by hook
+        """extensions file allow by the hook
+        :return: (list) extension file list manage by the hook
+            (ie: ['.js', '.py'])
         """
 
     @abstractmethod
     def run(self, file):
-        """
-        :param file:
-        :return:
-        """
+        """Abstract method called to check changed file
+        :param file: (string) path to the file to check
+        :return: (int) 0 if there is no problem, hook programs error return by
+        check_call"""
+
 
     def run_hook(self, file):
-        """
-        :param file:
-        :return:
+        """ Method to call to check hook
+        :param file: (string) path to the file to check
+        :return: (int) 0 if there is no problem, hook programs error return by
+        check_call
         """
         for ext in self.extensions():
             if file.endswith(ext):

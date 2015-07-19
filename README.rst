@@ -48,8 +48,10 @@ Roadmap
     * Flake8 hook
     * jshint hook
     * jslint hook
-* hooks configuration
+    * xmlint
+* hooks configuration (per project directory ?)
 * configuration set to easly switch from one to another config
   * vcs-pre-commit --config-list
   * vcs-pre-commit --switch <config_name>
-* extract hook outside this code as pluggins
+* extract hooks outside this code as pluggins
+* run it outside hooks (on change files or all files)
