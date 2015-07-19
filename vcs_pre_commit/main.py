@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 def main():
     parser = ArgumentParser(description="VCS PRE COMMIT")
-    parser.add_argument('--logging-level', default='DEBUG')
+    parser.add_argument('--logging-level', default='INFO')
     parser.add_argument('--vcs', default='git', choices=['git', 'hg'],
                         help="vcs currently in use")
     arguments = parser.parse_args()
