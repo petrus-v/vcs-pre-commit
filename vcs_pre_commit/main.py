@@ -1,4 +1,5 @@
 import logging
+import os
 
 from argparse import ArgumentParser
 
@@ -22,11 +23,21 @@ def main():
     files = repo.commiting_files()
     logger.debug("Audited files %r", files)
     hooks = [Flake8(), JsHint()]
-    first_error_number = 0
-    for file in files:
-        logger.info("Start checking %r", file)
+    first_error_number = None
+    error_file = []
+    for fpath in files:
+        if not os.path.isfile(fpath):
+            continue
+        logger.debug("-   ===== Start checking %r =====   -", fpath)
         for hook in hooks:
-            hook_result = hook.run_hook(file)
-            if first_error_number == 0 and hook_result != 0:
-                first_error_number = hook_result
+            hook_result = hook.run_hook(fpath)
+            if hook_result != 0:
+                if not first_error_number:
+                    first_error_number = hook_result
+                error_file.append(fpath)
+    if first_error_number:
+        error_file = set(error_file)
+        logger.warn("%(number)s files with errors %(files)r",
+                    dict(number=len(error_file), files=error_file))
+    logger.debug("End of vcs-pre-commit")
     return first_error_number

@@ -2,7 +2,7 @@ import logging
 
 from abc import ABCMeta, abstractmethod
 
-from .util import check_call
+from .util import call, which
 
 logger = logging.getLogger(__name__)
 
@@ -18,22 +18,22 @@ class Hook(object):
         """
 
     @abstractmethod
-    def run(self, file):
+    def run(self, check_file):
         """Abstract method called to check changed file
         :param file: (string) path to the file to check
         :return: (int) 0 if there is no problem, hook programs error return by
         check_call"""
 
-
-    def run_hook(self, file):
+    def run_hook(self, check_file):
         """ Method to call to check hook
         :param file: (string) path to the file to check
         :return: (int) 0 if there is no problem, hook programs error return by
         check_call
         """
         for ext in self.extensions():
-            if file.endswith(ext):
-                return self.run(file)
+            if check_file.endswith(ext):
+                return self.run(check_file)
+        return 0
 
 
 class Flake8(Hook):
@@ -41,8 +41,8 @@ class Flake8(Hook):
     def extensions(self):
         return ['.py']
 
-    def run(self, file):
-        return check_call(['flake8', file])
+    def run(self, check_file):
+        return call([which('flake8'), check_file])
 
 
 class JsHint(Hook):
@@ -50,5 +50,5 @@ class JsHint(Hook):
     def extensions(self):
         return ['.js']
 
-    def run(self, file):
-        return check_call(['jshint', file])
+    def run(self, check_file):
+        return call([which('jshint'), check_file])
