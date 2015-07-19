@@ -22,7 +22,7 @@ def main():
     repo = VCS.get_instance(arguments.vcs)
     files = repo.commiting_files()
     logger.debug("Audited files %r", files)
-    hooks = [Flake8(), JsHint()]
+    hooks = [Flake8(), JsHint(), EsLint()]
     first_error_number = None
     error_file = []
     for fpath in files:

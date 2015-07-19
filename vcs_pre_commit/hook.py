@@ -52,3 +52,12 @@ class JsHint(Hook):
 
     def run(self, check_file):
         return call([which('jshint'), check_file])
+
+
+class EsLint(Hook):
+
+    def extensions(self):
+        return ['.js']
+
+    def run(self, check_file):
+        return call([which('eslint'), check_file])
