@@ -21,6 +21,18 @@ Design
 When you commit, only changes files will be give to your favorites programming
 errors detectors. If there is an error commit process will be stopped.
 
+Hooks
+=====
+
+flake8
+------
+
+config
+~~~~~~
+
+As mentionned in ``flake8 --help``, you can configure flake8 in
+``~/.config/flake8`` file.
+
 Install
 =======
 
@@ -31,6 +43,13 @@ to install and configure it.
 Roadmap
 =======
 
-* Flake8 hook
-* jshint hook
-* jslint hook
+* implement vcs (with unit test!)
+* implement hooks
+    * Flake8 hook
+    * jshint hook
+    * jslint hook
+* hooks configuration
+* configuration set to easly switch from one to another config
+  * vcs-pre-commit --config-list
+  * vcs-pre-commit --switch <config_name>
+* extract hook outside this code as pluggins
