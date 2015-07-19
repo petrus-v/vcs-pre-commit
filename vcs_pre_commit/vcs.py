@@ -1,5 +1,6 @@
 from abc import ABCMeta, abstractmethod
-from subprocess import check_output
+
+from .util import check_output
 
 
 class VCS(object):
@@ -25,10 +26,14 @@ class VCS(object):
 class Git(VCS):
 
     def commiting_files(self):
-        import pdb; pdb.set_trace()
-        files = check_output(['git', 'status', '--porcelain', '-z']
+        status = check_output(['git', 'status', '--porcelain', '-z']
                              ).decode("utf-8")
-        return files.split('\x00')
+        files = []
+        for status in status.split('\x00'):
+            if status.startswith('A') or status.startswith('M'):
+                files.append(status.split(' ')[-1])
+        return files
+
 
 
 class Hg(VCS):
@@ -36,5 +41,4 @@ class Hg(VCS):
     def commiting_files(self):
         files = check_output(['hg', 'status', '-m', '-a', '-n', '-0']
                              ).decode("utf-8")
-        import pdb; pdb.set_trace()
         return files.split('\x00')
