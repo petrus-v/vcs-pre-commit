@@ -4,14 +4,14 @@ import os
 from argparse import ArgumentParser
 
 from .vcs import VCS
-from .hook import Flake8, EsLint
+from .hook import Flake8, JsHint, EsLint
 
 logger = logging.getLogger(__name__)
 
 
 def main():
     parser = ArgumentParser(description="VCS PRE COMMIT")
-    parser.add_argument('--logging-level', default='INFO')
+    parser.add_argument('--logging-level', default='DEBUG')
     parser.add_argument('--vcs', default='git', choices=['git', 'hg'],
                         help="vcs currently in use")
     arguments = parser.parse_args()
@@ -22,7 +22,7 @@ def main():
     repo = VCS.get_instance(arguments.vcs)
     files = repo.commiting_files()
     logger.debug("Audited files %r", files)
-    hooks = [Flake8(), EsLint()]
+    hooks = [Flake8(), JsHint(), EsLint()]
     first_error_number = None
     error_file = []
     for fpath in files:
