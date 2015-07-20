@@ -61,3 +61,12 @@ class EsLint(Hook):
 
     def run(self, check_file):
         return call([which('eslint'), check_file])
+
+
+class XmlLint(Hook):
+
+    def extensions(self):
+        return ['.xml']
+
+    def run(self, check_file):
+        return call([which('xmllint'), check_file])
