@@ -69,4 +69,4 @@ class XmlLint(Hook):
         return ['.xml']
 
     def run(self, check_file):
-        return call([which('xmllint'), check_file])
+        return call([which('xmllint'), '--noout', check_file])
