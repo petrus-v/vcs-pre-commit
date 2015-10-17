@@ -70,3 +70,14 @@ class XmlLint(Hook):
 
     def run(self, check_file):
         return call([which('xmllint'), '--noout', check_file])
+
+
+class OdooLint(Hook):
+
+    def extensions(self):
+        return ['.xml', '.rst', '.py', '.js']
+
+    def run(self, check_file):
+        # bin/pylint --load-plugins=pylint_odoo -d all -e odoolint file.py
+        return call([which('pylint'), '--load-plugins', 'pylint_odoo', '-e',
+                     'odoolint', check_file])
