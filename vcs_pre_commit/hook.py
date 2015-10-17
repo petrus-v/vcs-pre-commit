@@ -10,6 +10,9 @@ logger = logging.getLogger(__name__)
 class Hook(object):
     __metaclass__ = ABCMeta
 
+    def init(self, config=None):
+        self.config = config
+
     @abstractmethod
     def extensions(self):
         """extensions file allow by the hook
@@ -42,7 +45,11 @@ class Flake8(Hook):
         return ['.py']
 
     def run(self, check_file):
-        return call([which('flake8'), check_file])
+        '--config'
+        cmd = [which('flake8')]
+        if self.config and self.config.config:
+            cmd += [self.config.config]
+        return call(cmd + [check_file])
 
 
 class JsHint(Hook):

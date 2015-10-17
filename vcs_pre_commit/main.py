@@ -1,5 +1,6 @@
 import logging
 import os
+import yaml
 
 from argparse import ArgumentParser
 
@@ -14,6 +15,8 @@ def main():
     parser.add_argument('--logging-level', default='INFO')
     parser.add_argument('--vcs', default='git', choices=['git', 'hg'],
                         help="vcs currently in use")
+    parser.add_argument('--config-file', '-c', default='~/.vcs-pre-commit',
+                        help="path to config file")
     arguments = parser.parse_args()
 
     logging.basicConfig(level=getattr(logging,
@@ -23,6 +26,12 @@ def main():
     files = repo.commiting_files()
     logger.debug("Audited files %r", files)
     hooks = [Flake8(), JsHint(), EsLint(), XmlLint(), OdooLint(), ]
+    import pdb; pdb.set_trace()
+    if (arguments.config_file and os.path.isfile(arguments.config_file) and
+        os.access(arguments.config_file, os.R_OK)):
+        with open("example.yaml", 'r') as stream:
+            print(yaml.load(stream))
+
     first_error_number = None
     error_file = []
     for fpath in files:

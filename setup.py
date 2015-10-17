@@ -16,7 +16,7 @@ setup(
     packages=find_packages('.', exclude=('tests*')),
     zip_safe=False,
     include_package_data=True,
-    install_requires=[],
+    install_requires=['PyYAML'],
     tests_require=[],
     classifiers=[
         'License :: OSI Approved :: AGPL-3.0',
