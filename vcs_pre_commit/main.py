@@ -26,7 +26,6 @@ def main():
     files = repo.commiting_files()
     logger.debug("Audited files %r", files)
     hooks = [Flake8(), JsHint(), EsLint(), XmlLint(), OdooLint(), ]
-    import pdb; pdb.set_trace()
     if (arguments.config_file and os.path.isfile(arguments.config_file) and
         os.access(arguments.config_file, os.R_OK)):
         with open("example.yaml", 'r') as stream:
